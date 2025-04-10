@@ -1,0 +1,150 @@
+---
+description: Core framework implementation tasks and architecture roadmap
+globs: *.ts
+alwaysApply: false
+---
+
+# Web Framework Core Implementation Plan
+
+## Foundational Components
+<rule>
+  HTTP Server Implementation
+  - [ ] Implement core Bun.serve() wrapper
+  - [ ] Add server lifecycle management (start/stop/reload)
+  - [ ] Implement TLS configuration support
+  - [ ] Add server metrics and monitoring
+  - [ ] Implement graceful shutdown
+</rule>
+
+<rule>
+  Routing System
+  - [ ] Implement tree-based routing engine
+  - [ ] Add support for static routes
+  - [ ] Add support for parameterized routes with type safety
+  - [ ] Implement method-based routing (GET, POST, etc.)
+  - [ ] Implement route precedence (exact > param > wildcard)
+  - [ ] Add support for route grouping and nesting
+</rule>
+
+<rule>
+  Middleware Architecture
+  - [ ] Create middleware pipeline infrastructure
+  - [ ] Implement middleware execution order and priority
+  - [ ] Add support for global and route-specific middleware
+  - [ ] Create middleware for common use cases (CORS, logging, etc.)
+  - [ ] Implement error handling middleware
+</rule>
+
+## Advanced Features
+<rule>
+  Request/Response Handling
+  - [ ] Implement extended Request and Response classes
+  - [ ] Add type-safe body parsing (JSON, form data, etc.)
+  - [ ] Implement proper cookie handling with CookieMap
+  - [ ] Add response helpers (json, redirect, etc.)
+  - [ ] Implement content negotiation
+  - [ ] Support proper streaming for large responses
+</rule>
+
+<rule>
+  WebSocket Support
+  - [ ] Implement WebSocket server integration
+  - [ ] Add pub/sub pattern support
+  - [ ] Implement backpressure handling
+  - [ ] Create connection lifecycle hooks
+  - [ ] Add support for rooms and channels
+</rule>
+
+<rule>
+  File Handling
+  - [ ] Implement static file server
+  - [ ] Add proper content type detection
+  - [ ] Support range requests for partial content
+  - [ ] Implement sendfile(2) optimization
+  - [ ] Add caching headers and ETag support
+</rule>
+
+<rule>
+  Error Handling
+  - [ ] Create centralized error handling system
+  - [ ] Implement custom error classes with status codes
+  - [ ] Add development-mode error page
+  - [ ] Support custom error handlers per route
+  - [ ] Add validation error handling
+</rule>
+
+## Developer Experience
+<rule>
+  TypeScript Integration
+  - [ ] Provide full TypeScript definitions
+  - [ ] Implement type-safe route parameters
+  - [ ] Add type-safe middleware chains
+  - [ ] Create request/response generic types
+  - [ ] Support type inference for JSON responses
+</rule>
+
+<rule>
+  Testing and Debugging
+  - [ ] Create testing utilities for routes and middleware
+  - [ ] Implement mock request/response helpers
+  - [ ] Add logging infrastructure
+  - [ ] Create performance profiling tools
+  - [ ] Implement request tracing
+</rule>
+
+<rule>
+  Hot Reload Support
+  - [ ] Implement hot route reloading
+  - [ ] Add support for middleware hot swapping
+  - [ ] Create development server with auto-restart
+  - [ ] Support for environment-specific configuration
+</rule>
+
+## Performance Optimization
+<rule>
+  Caching and Optimization
+  - [ ] Implement route cache for frequent patterns
+  - [ ] Add response caching middleware
+  - [ ] Create memory-efficient parameter extraction
+  - [ ] Implement SIMD-accelerated path matching
+  - [ ] Add compression middleware
+</rule>
+
+<rule>
+  Security Features
+  - [ ] Implement CSRF protection
+  - [ ] Add rate limiting middleware
+  - [ ] Create security headers middleware
+  - [ ] Implement proper cookie security
+  - [ ] Add authentication helpers
+</rule>
+
+## Examples and Documentation
+<rule>
+  Usage Examples
+  - [ ] Create basic API example
+  - [ ] Implement RESTful CRUD example
+  - [ ] Add WebSocket chat example
+  - [ ] Create file upload example
+  - [ ] Implement authentication example
+</rule>
+
+<rule>
+  Documentation
+  - [ ] Write API documentation
+  - [ ] Create architectural overview
+  - [ ] Add middleware documentation
+  - [ ] Write performance optimization guide
+  - [ ] Create deployment guide
+</rule>
+
+## Critical
+<critical>
+  - Prioritize performance and low memory usage in all implementations
+  - Maintain compatibility with Bun's latest features and optimizations
+  - Ensure all public APIs have proper TypeScript definitions
+  - Design for composability and modularity
+  - Maintain a small core with optional extensions
+</critical>
+
+<version>1.0.0</version>

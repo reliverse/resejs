@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rese.js Framework - The Next Generation Web Framework</title>
+    <style>
+        /* --------- Color Variables --------- */
+        :root {
+            /* Slightly darker pink for light theme */
+            --primary: #e6004d;
+            --primary-hover: #b0003a;
+
+            --border-color: #e0e0e0;
+            /* Use a subtle gradient on the white/light theme */
+            --background: linear-gradient(135deg, #ffffff, #f7f7f7);
+            --text-color: #1a1a1a;
+        }
+
+        [data-theme="dark"] {
+            /* Darker pink for dark theme */
+            --primary: #e02055;
+            --primary-hover: #a81c47;
+
+            --border-color: #444;
+            --background: #1a1a1a;
+            --text-color: #f0f0f0;
+        }
+
+        /* --------- Global Styles --------- */
+        html {
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Code & Pre styles */
+        pre,
+        code {
+            display: block;
+            background: #1d1d1d;
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: monospace;
+            line-height: 1.4;
+            white-space: pre;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th,
+        table td {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        ul {
+            margin: 0.5rem 0;
+            padding-left: 1.25rem;
+        }
+
+        /* --------- Header & Navigation --------- */
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--background);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+
+            /* Full width with left/right 12px padding */
+            padding: 0.5rem 12px;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        nav a {
+            margin: 0 0.5rem;
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* --------- Section Styling --------- */
+        main {
+            /* Slightly wider main content area */
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --------- Hero Section --------- */
+        #hero {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+        }
+
+        #hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            margin: 0.25rem;
+            font-weight: 500;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        .cta a:hover {
+            background: var(--primary-hover);
+            transform: scale(1.02);
+        }
+
+        /* --------- Footer --------- */
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        /* --------- Responsive --------- */
+        @media (max-width: 600px) {
+            main {
+                padding: 1rem;
+            }
+
+            .cta a {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+
+        /* --------- Background Wave --------- */
+        .wave {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, var(--primary) 0%, transparent 70%);
+            opacity: 0.03;
+            animation: waveMove 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes waveMove {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 0%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Wave -->
+    <div class="wave"></div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">Rese.js</div>
+            <nav>
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#what-is-rese">What &amp; Why</a>
+                <a href="#features">Features</a>
+                <a href="#installation">Installation</a>
+                <a href="#examples">Examples</a>
+                <a href="#plugins">Plugins</a>
+                <a href="#benchmarks">Benchmarks</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#community">Community</a>
+            </nav>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                🌓
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <h1>Rese.js Framework</h1>
+            <p>
+                Ultra-fast, minimalist-first, extendable framework for Bun.
+            </p>
+            <p>
+                Soon it will be available for Node.js and Deno too!
+            </p>
+            <div class="cta">
+                <a href="https://npmjs.com/package/@reliverse/rese" target="_blank">📦 NPM</a>
+                <a href="https://github.com/reliverse/resejs" target="_blank">✨ GitHub</a>
+                <a href="https://discord.gg/Pb8uKbwpsJ" target="_blank">💬 Discord</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="card">
+            <h2>About Rese</h2>
+            <p>
+                <strong>Rese</strong> (<em>/rɛs/</em>,
+                <strong>Re</strong>liver<strong>se</strong>)
+                is a blazing fast, minimalist framework designed for modern web,
+                desktop, and mobile applications. Built for Bun, Deno, and Node.js,
+                it delivers a developer-first experience with expressive routing,
+                built-in WebSocket support, and a flexible plugin system.
+            </p>
+            <p>
+                Inspired by Express, Koa, Hono, Next.js, TanStack Start, and others, Rese leverages native
+                Bun.serve and a cutting-edge radix tree for routing to provide
+                exceptional performance and scalability.
+            </p>
+        </section>
+
+        <!-- What is & Why Rese Section -->
+        <section id="what-is-rese" class="card">
+            <h2>What is Rese?</h2>
+            <p>
+                Rese is an extendible, ultra-fast, minimalist framework for
+                TypeScript, Node.js, Bun, desktop, mobile, and web applications —
+                offering a batteries-included developer experience with expressive
+                routing and clean, context-driven middleware.
+            </p>
+            <h3>Why Rese?</h3>
+            <ul>
+                <li>Native Bun support for blazing speed</li>
+                <li>Express-style simplicity with modern performance</li>
+                <li>
+                    Built-in WebSocket support for real-time apps, games, and AI
+                    projects
+                </li>
+                <li>Plugin-driven extensibility—add only what you need</li>
+            </ul>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="card">
+            <h2>Features</h2>
+            <ul>
+                <li>🧑‍🍳 <strong>DX-first API</strong> — no boilerplate, all elegance</li>
+                <li>📝 <strong>rese.config.ts</strong> — easy, centralized configuration</li>
+                <li>🔥 <strong>Bun-first</strong> — 100% native speed with no polyfills</li>
+                <li>
+                    🚀 <strong>Radix Tree Routing</strong> — lightning-fast route resolution
+                </li>
+                <li>
+                    🧠 <strong>Context-Based Middleware</strong> — before() and after() hooks for clean control flow
+                </li>
+                <li>
+                    📦 <strong>Native WebSocket Support</strong> — built in for real-time communications
+                </li>
+                <li>
+                    🔌 <strong>Plugin Architecture</strong> — extendable, modular, and ideal for building your own
+                    frameworks
+                </li>
+                <li>
+                    🎮 <strong>Framework for Framework Developers</strong> — create a custom full-stack experience
+                </li>
+            </ul>
+        </section>
+
+        <!-- Installation Section -->
+        <section id="installation" class="card">
+            <h2>Installation</h2>
+            <pre><code>bun add @reliverse/rese
+
+# Or initialize a new project:
+reliverse init --framework rese
+</code></pre>
+        </section>
+
+        <!-- Examples Section -->
+        <section id="examples" class="card">
+            <h2>Examples</h2>
+            <h3>Hello, Rese</h3>
+            <pre><code>
+// index.ts
+import { Rese } from "@reliverse/rese";
+
+const app = new Rese();
+
+app.get("/", (ctx) => ctx.sendText("Hello from Rese 🌌"));
+
+app.listen({ port: 3000 });
+</code></pre>
+
+            <h3>Dynamic Routes</h3>
+            <pre><code>
+app.get("/user/:username", async (ctx) => {
+  const { username } = ctx.params;
+  return ctx.sendJson({ profile: username });
+});
+</code></pre>
+
+            <h3>WebSocket Example</h3>
+            <pre><code>
+app.ws("/chat", {
+  open: (ws) => ws.send("Welcome to Rese chat!"),
+  message: (ws, msg) => ws.publish("chat", msg),
+});
+</code></pre>
+        </section>
+
+        <!-- Plugin Architecture Section -->
+        <section id="plugins" class="card">
+            <h2>Plugin Architecture</h2>
+            <p>
+                Rese is built around a lightweight, opt-in plugin system that lets
+                you customize and extend your app without sacrificing performance.
+                Whether you need SSR with React, AI-enabled endpoints, file-based routing,
+                or even full RPC support, there’s a plugin for that.
+            </p>
+            <h3>Planned Plugins</h3>
+            <ul>
+                <li>
+                    <code>🌍 @reliverse/rese-edge</code> – Edge-optimized runtime for AI APIs and streaming SSR.
+                </li>
+                <li>
+                    <code>🧠 @reliverse/rese-ai</code> – Native AI routes powered by Vercel AI.
+                </li>
+                <li>
+                    <code>🌐 @reliverse/rese-mcp</code> – Integration with Model Context Protocol for agent tools.
+                </li>
+                <li>
+                    <code>⚛️ @reliverse/rese-react</code> – Server-rendered React/JSX support.
+                </li>
+                <li>
+                    <code>📦 @reliverse/rese-static</code> – Static site generation and local file serving.
+                </li>
+                <li>
+                    <code>🧱 @reliverse/rese-effect</code> – Effect integration for typed error handling and structured
+                    concurrency.
+                </li>
+                <li>
+                    <code>🕒 @reliverse/rese-cron</code> – Scheduled tasks with cron-style syntax.
+                </li>
+                <li>
+                    <code>🔐 @reliverse/rese-auth</code> – Session and OAuth2-based authentication.
+                </li>
+                <li>
+                    <code>🌍 @reliverse/rese-i18n</code> – Multilingual support.
+                </li>
+                <li>
+                    <code>🧬 @reliverse/rese-db</code> – Lightweight database integration.
+                </li>
+            </ul>
+        </section>
+
+        <!-- Benchmarks & Comparison Section -->
+        <section id="benchmarks" class="card">
+            <h2>Benchmarks &amp; Comparison</h2>
+            <h3>Benchmarks</h3>
+            <pre>
+Rese     : 31,821 req/sec, 15ms latency
+Bao      : 31,821 req/sec, 15ms latency
+Express  : 8,705  req/sec, 56ms latency
+Koa      : 26,877 req/sec, 18ms latency
+Fastify  : 31,974 req/sec, 15ms latency
+</pre>
+
+            <h3>Framework Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Rese</th>
+                        <th>Express</th>
+                        <th>Koa</th>
+                        <th>Fastify</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bun-native</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                    </tr>
+                    <tr>
+                        <td>Radix Routing</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Plugin System</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>🟡</td>
+                    </tr>
+                    <tr>
+                        <td>Native WebSocket</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>🟡</td>
+                    </tr>
+                    <tr>
+                        <td>TypeScript-first</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>🟡</td>
+                        <td>✅</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="card">
+            <h2>Roadmap</h2>
+            <ul>
+                <li>Bootstrapping via Reliverse CLI</li>
+                <li>Full WebSocket support</li>
+                <li>Before/After middleware enhancements</li>
+                <li>Named routes &amp; wildcard support</li>
+                <li>Static file serving</li>
+                <li>Enhanced plugin system</li>
+                <li>CLI &amp; project templates</li>
+            </ul>
+        </section>
+
+        <!-- Community & Contribute Section -->
+        <section id="community" class="card">
+            <h2>Community &amp; Contribute</h2>
+            <p>
+                We welcome feedback, ideas, and contributions. Join our
+                community and help shape the future of Rese.
+            </p>
+            <ul>
+                <li>
+                    <a href="https://discord.gg/Pb8uKbwpsJ" target="_blank">💬 Discord</a>
+                </li>
+                <li>
+                    <a href="https://github.com/reliverse/resejs" target="_blank">⭐ GitHub</a>
+                </li>
+                <li>
+                    <a href="https://github.com/sponsors/blefnk" target="_blank">☕ Sponsor</a>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            💖 MIT © 2025
+            <a href="https://github.com/blefnk" target="_blank">blefnk Nazar Kornienko</a>
+        </p>
+        <p>Part of the Reliverse ecosystem</p>
+    </footer>
+
+    <!-- --------- Scripts --------- -->
+    <script>
+        // Auto-detect saved theme or preferred color scheme
+        (function () {
+            const savedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const theme = savedTheme || (prefersDark ? "dark" : "light");
+            document.documentElement.setAttribute("data-theme", theme);
+        })();
+
+        // Toggle theme and save preference
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+            html.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+---
+description: Enforce Bun-optimized patterns when developing web framework components
+globs: *.ts
+alwaysApply: false
+---
+
+# Bun Web Framework Standards
+
+## Context
+- Applied to all web framework source files
+- Ensures optimal performance with Bun runtime
+- Maintains compatibility with Bun's Node.js implementation
+- Leverages Bun's native HTTP server capabilities
+
+## Requirements
+- Use Bun's native APIs for performance-critical operations
+- Implement proper routing patterns and middleware architecture
+- Utilize TypeScript for type safety and better developer experience
+- Follow ESM module patterns
+- Implement proper error handling and lifecycle management
+
+## Framework Architecture Standards
+<rule>
+  Use Bun.serve() as the core HTTP server
+  - Implement route handling with proper precedence
+  - Support static and dynamic routes
+  - Enable method-based routing (GET, POST, etc.)
+  - Implement proper parameter extraction
+</rule>
+
+<rule>
+  Implement proper middleware architecture
+  - Support async middleware chains
+  - Enable request/response modification
+  - Implement proper error handling in middleware
+  - Support early returns and middleware skipping
+</rule>
+
+<rule>
+  Optimize response handling
+  - Use streaming responses for large payloads
+  - Implement proper content type handling
+  - Support compression when needed
+  - Enable proper cookie management
+</rule>
+
+<rule>
+  Implement proper WebSocket support
+  - Use native WebSocket capabilities
+  - Support pub/sub patterns
+  - Implement proper connection lifecycle
+  - Handle backpressure correctly
+</rule>
+
+## Performance Standards
+<rule>
+  Optimize route matching
+  - Use tree-based routing for better performance
+  - Implement proper parameter caching
+  - Enable SIMD-accelerated route parameter decoding
+  - Cache compiled route patterns
+</rule>
+
+<rule>
+  Implement proper file handling
+  - Use Bun.file for static file serving
+  - Implement proper range request handling
+  - Enable sendfile(2) optimization where possible
+  - Support proper content type detection
+</rule>
+
+## Examples
+<example>
+  // Proper route handler implementation
+  const router = {
+    routes: {
+      "/api/:resource/:id": {
+        GET: async (req) => {
+          const { resource, id } = req.params;
+          return Response.json({ resource, id });
+        },
+        POST: async (req) => {
+          const body = await req.json();
+          return Response.json(body, { status: 201 });
+        }
+      }
+    }
+  };
+</example>
+
+<example>
+  // Proper middleware implementation
+  const withAuth = async (req, next) => {
+    const token = req.headers.get("Authorization");
+    if (!token) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+    return next(req);
+  };
+</example>
+
+<example>
+  // Proper streaming response
+  const streamHandler = async (req) => {
+    const stream = ReadableStream.from(dataSource);
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked"
+      }
+    });
+  };
+</example>
+
+<example type="invalid">
+  // Avoid blocking operations in request handlers
+  const badHandler = async (req) => {
+    const data = await readEntireDatabase();
+    return Response.json(data);
+  };
+</example>
+
+## Critical
+<critical>
+  - Always use async/await for asynchronous operations
+  - Implement proper error boundaries
+  - Use proper TypeScript types for request/response handling
+  - Implement proper lifecycle hooks
+  - Enable proper development mode error handling
+  - Implement proper TLS configuration support
+  - Use proper cookie handling with CookieMap
+  - Implement proper WebSocket lifecycle management
+</critical>
+
+<version>1.1.0</version> 
